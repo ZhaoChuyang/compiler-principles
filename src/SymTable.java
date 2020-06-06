@@ -39,6 +39,9 @@ public class SymTable {
         symbol_list.add(new Triplet<String, String, Integer>("out", "outsym", 31));
         symbol_list.add(new Triplet<String, String, Integer>("in", "insym", 32));
         symbol_list.add(new Triplet<String, String, Integer>("else", "elsesym", 33));
+        symbol_list.add(new Triplet<String, String, Integer>("write", "writesym", 34));
+        symbol_list.add(new Triplet<String, String, Integer>("read", "readsym", 35));
+
     }
 
     public static int get_internal_val(String internal_name){
