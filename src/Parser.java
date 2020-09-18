@@ -74,131 +74,132 @@ public class Parser {
         // String file_path = "/Users/chuyang/Documents/大三春/编译原理/实验/PL0_code/PL0_code.in";
         // File file = new File(file_path);
 
-        String file_path = args[0];
-        String output_path = args[1];
-        File input_file = new File(file_path);
-
-        Parser parser = new Parser(input_file);
-
-        DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder icBuilder;
-
-        try{
-
-
-            icBuilder = icFactory.newDocumentBuilder();
-            Document doc = icBuilder.newDocument();
-            Element rootElement = doc.createElementNS("https://com.chuyang.compiler_principles/parser", "ParserOutput");
-            doc.appendChild(rootElement);
-
-            Element symbolTable = doc.createElement("SymbolTable");
-            rootElement.appendChild(symbolTable);
-            ArrayList<Symbol> all_symbols = parser.get_symbol_table();
-            int id = 0;
-
-            for(Symbol symbol: all_symbols){
-                System.out.println(symbol.SYM);
-
-                Element symbolElement = doc.createElement("Symbol");
-                symbolElement.setAttribute("id", (id++) + "");
-
-                Element symElement = doc.createElement("sym");
-                symElement.appendChild(doc.createTextNode(symbol.SYM));
-                symbolElement.appendChild(symElement);
-
-                Element idElement = doc.createElement("id");
-                idElement.appendChild(doc.createTextNode(symbol.ID));
-                symbolElement.appendChild(idElement);
-
-                Element numElement = doc.createElement("num");
-                numElement.appendChild(doc.createTextNode(symbol.NUM + ""));
-                symbolElement.appendChild(numElement);
-
-                symbolTable.appendChild(symbolElement);
-            }
-
-            parser.parse();
-
-            Element blockTable = doc.createElement("BlockTable");
-            rootElement.appendChild(blockTable);
-            ArrayList<BlockItem> all_blockitems = parser.get_block_table();
-            id = 0;
-
-            for(BlockItem item: all_blockitems){
-                Element blockElement = doc.createElement("BlockItem");
-                blockElement.setAttribute("id", (id++) + "");
-
-                Element nameElement = doc.createElement("name");
-                nameElement.appendChild(doc.createTextNode(item.name));
-                blockElement.appendChild(nameElement);
-
-                Element kindElement = doc.createElement("kind");
-                kindElement.appendChild(doc.createTextNode(item.kind));
-                blockElement.appendChild(kindElement);
-
-                Element valueElement = doc.createElement("value");
-                valueElement.appendChild(doc.createTextNode("" + item.value));
-                blockElement.appendChild(valueElement);
-
-                Element levelElement = doc.createElement("level");
-                levelElement.appendChild(doc.createTextNode("" + item.level));
-                blockElement.appendChild(levelElement);
-
-                Element addressElement = doc.createElement("address");
-                addressElement.appendChild(doc.createTextNode("" + item.address));
-                blockElement.appendChild(addressElement);
-
-                blockTable.appendChild(blockElement);
-            }
-
-
-            Element codeTable = doc.createElement("codeTable");
-            rootElement.appendChild(codeTable);
-            ArrayList<CodeItem> all_codes = parser.get_code_table();
-            id = 0;
-
-            for(CodeItem code: all_codes){
-                Element codeElement = doc.createElement("CodeItem");
-                codeElement.setAttribute("id", (id++) + "");
-
-                Element opElement = doc.createElement("f");
-                opElement.appendChild(doc.createTextNode(code.op));
-                codeElement.appendChild(opElement);
-
-                Element levelElement = doc.createElement("l");
-                levelElement.appendChild(doc.createTextNode(code.l + ""));
-                codeElement.appendChild(levelElement);
-
-                Element mElement = doc.createElement("m");
-                mElement.appendChild(doc.createTextNode(code.m + ""));
-                codeElement.appendChild(mElement);
-
-                codeTable.appendChild(codeElement);
-            }
-
-            Element forest = doc.createElement("forest");
-            String latex_tree = parser.get_tree().toString();
-            forest.appendChild(doc.createTextNode(latex_tree));
-            rootElement.appendChild(forest);
-
-            Transformer tr = TransformerFactory.newInstance().newTransformer();
-            tr.setOutputProperty(OutputKeys.INDENT, "yes");
-            tr.setOutputProperty(OutputKeys.METHOD, "xml");
-            tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-            tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "roles.dtd");
-            tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-
-            // send DOM to file
-            tr.transform(new DOMSource(rootElement),new StreamResult(new FileOutputStream(output_path)));
-
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-
-
-//        Parser parser = new Parser();
-//        parser.parse();
+//        String file_path = args[0];
+//        String output_path = args[1];
+//        File input_file = new File(file_path);
 //
+//        Parser parser = new Parser(input_file);
+//
+//        DocumentBuilderFactory icFactory = DocumentBuilderFactory.newInstance();
+//        DocumentBuilder icBuilder;
+//
+//        try{
+//
+//
+//            icBuilder = icFactory.newDocumentBuilder();
+//            Document doc = icBuilder.newDocument();
+//            Element rootElement = doc.createElementNS("https://com.chuyang.compiler_principles/parser", "ParserOutput");
+//            doc.appendChild(rootElement);
+//
+//            Element symbolTable = doc.createElement("SymbolTable");
+//            rootElement.appendChild(symbolTable);
+//            ArrayList<Symbol> all_symbols = parser.get_symbol_table();
+//            int id = 0;
+//
+//            for(Symbol symbol: all_symbols){
+//                System.out.println(symbol.SYM);
+//
+//                Element symbolElement = doc.createElement("Symbol");
+//                symbolElement.setAttribute("id", (id++) + "");
+//
+//                Element symElement = doc.createElement("sym");
+//                symElement.appendChild(doc.createTextNode(symbol.SYM));
+//                symbolElement.appendChild(symElement);
+//
+//                Element idElement = doc.createElement("id");
+//                idElement.appendChild(doc.createTextNode(symbol.ID));
+//                symbolElement.appendChild(idElement);
+//
+//                Element numElement = doc.createElement("num");
+//                numElement.appendChild(doc.createTextNode(symbol.NUM + ""));
+//                symbolElement.appendChild(numElement);
+//
+//                symbolTable.appendChild(symbolElement);
+//            }
+//
+//            parser.parse();
+//
+//            Element blockTable = doc.createElement("BlockTable");
+//            rootElement.appendChild(blockTable);
+//            ArrayList<BlockItem> all_blockitems = parser.get_block_table();
+//            id = 0;
+//
+//            for(BlockItem item: all_blockitems){
+//                Element blockElement = doc.createElement("BlockItem");
+//                blockElement.setAttribute("id", (id++) + "");
+//
+//                Element nameElement = doc.createElement("name");
+//                nameElement.appendChild(doc.createTextNode(item.name));
+//                blockElement.appendChild(nameElement);
+//
+//                Element kindElement = doc.createElement("kind");
+//                kindElement.appendChild(doc.createTextNode(item.kind));
+//                blockElement.appendChild(kindElement);
+//
+//                Element valueElement = doc.createElement("value");
+//                valueElement.appendChild(doc.createTextNode("" + item.value));
+//                blockElement.appendChild(valueElement);
+//
+//                Element levelElement = doc.createElement("level");
+//                levelElement.appendChild(doc.createTextNode("" + item.level));
+//                blockElement.appendChild(levelElement);
+//
+//                Element addressElement = doc.createElement("address");
+//                addressElement.appendChild(doc.createTextNode("" + item.address));
+//                blockElement.appendChild(addressElement);
+//
+//                blockTable.appendChild(blockElement);
+//            }
+//
+//
+//            Element codeTable = doc.createElement("CodeTable");
+//            rootElement.appendChild(codeTable);
+//            ArrayList<CodeItem> all_codes = parser.get_code_table();
+//            id = 0;
+//
+//            for(CodeItem code: all_codes){
+//                Element codeElement = doc.createElement("CodeItem");
+//                codeElement.setAttribute("id", (id++) + "");
+//
+//                Element opElement = doc.createElement("f");
+//                opElement.appendChild(doc.createTextNode(code.op));
+//                codeElement.appendChild(opElement);
+//
+//                Element levelElement = doc.createElement("l");
+//                levelElement.appendChild(doc.createTextNode(code.l + ""));
+//                codeElement.appendChild(levelElement);
+//
+//                Element mElement = doc.createElement("m");
+//                mElement.appendChild(doc.createTextNode(code.m + ""));
+//                codeElement.appendChild(mElement);
+//
+//                codeTable.appendChild(codeElement);
+//            }
+//
+//            Element forest = doc.createElement("forest");
+//            String latex_tree = parser.get_tree().toString();
+//            forest.appendChild(doc.createTextNode(latex_tree));
+//            rootElement.appendChild(forest);
+//
+//            Transformer tr = TransformerFactory.newInstance().newTransformer();
+//            tr.setOutputProperty(OutputKeys.INDENT, "yes");
+//            tr.setOutputProperty(OutputKeys.METHOD, "xml");
+//            tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+//            tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "roles.dtd");
+//            tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+//
+//            // send DOM to file
+//            tr.transform(new DOMSource(rootElement),new StreamResult(new FileOutputStream(output_path)));
+//
+//        } catch(Exception e){
+//            e.printStackTrace();
+//        }
+
+
+        Parser parser = new Parser();
+        parser.parse();
+
+        parser.get_tree();
 //        parser.print_table();
 //        parser.print_code();
 
@@ -659,7 +660,7 @@ public class Parser {
             ASTNode idents = new ASTNode("{\",\" ident}");
             statement.add_child(idents);
 
-            emit("SIO", 0, 1);
+            emit("READ", 0, 1);
             emit("STO", lev - fr.level, fr.address);
 
             while(nextToken().SYM.equals("commasym")){
@@ -698,6 +699,8 @@ public class Parser {
                 expressions.add_child(new ASTNode(","));
                 expression(expressions);
             }
+
+            emit("WRITE", 0, 1);
 
             assert nextToken().SYM.equals("rparentsym");
             getNextToken();
@@ -866,27 +869,27 @@ public class Parser {
                 || nextToken().SYM.equals("gtrsym") || nextToken().SYM.equals("geqsym") || nextToken().SYM.equals("lessym")){
             Symbol token = getNextToken();
             if(token.SYM.equals("eqlsym")) {
-                parent.add_child(new ASTNode("$=$"));
+                parent.add_child(new ASTNode("="));
                 return 0;
             }
             if(token.SYM.equals("neqsym")) {
-                parent.add_child(new ASTNode("$<>$"));
+                parent.add_child(new ASTNode("<>"));
                 return 1;
             }
             if(token.SYM.equals("leqsym")) {
-                parent.add_child(new ASTNode("$<=$"));
+                parent.add_child(new ASTNode("{<=}"));
                 return 3;
             }
             if(token.SYM.equals("gtrsym")) {
-                parent.add_child(new ASTNode("$>$"));
+                parent.add_child(new ASTNode(">"));
                 return 4;
             }
             if(token.SYM.equals("geqsym")) {
-                parent.add_child(new ASTNode("$>=$"));
+                parent.add_child(new ASTNode("{>=}"));
                 return 5;
             }
             if(token.SYM.equals("lessym")) {
-                parent.add_child(new ASTNode("$<$"));
+                parent.add_child(new ASTNode("<"));
                 return 2;
             }
         }
